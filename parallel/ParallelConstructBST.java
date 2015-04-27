@@ -27,10 +27,10 @@ class ParallelBuild<T> extends RecursiveTask<Node<T>>{
     }
 
     public static <T> Node<T> computeSeq(T[] x, int lo, int hi){
-        if(hi == lo) return new Node<>(x[lo]);
+        if(hi == lo) return new Node<>(x[lo],1);
         if(hi < lo) return null;
         int mid = lo+(hi-lo)/2;
-        Node<T> current = new Node<>(x[mid]);
+        Node<T> current = new Node<>(x[mid],hi-lo+1);
         current.left = computeSeq(x, lo, mid);
         current.right = computeSeq(x, mid + 1, hi);
         return current;
@@ -42,7 +42,7 @@ class ParallelBuild<T> extends RecursiveTask<Node<T>>{
             return computeSeq(x,lo,hi);
         }
         int mid = lo+(hi-lo)/2;
-        Node<T> current = new Node<>(x[mid]);
+        Node<T> current = new Node<>(x[mid], hi-lo+1);
         ParallelBuild<T> left = new ParallelBuild<>(x,lo,mid);
         ParallelBuild<T> right = new ParallelBuild<>(x,lo,mid);
         left.fork(); // spawn new thread
