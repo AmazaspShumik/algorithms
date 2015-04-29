@@ -45,14 +45,15 @@ class Convert<T> extends RecursiveTask<CircularLinkedList<T>>{
       if(node.N < ConvertBSTSortedLinkedList.CUT_SEQ){
          return constructSortedListFromBST(node, comp);
       }
+      // to get sorted order of elements we need inorder traversal of tree
       Convert<T> leftList = new Convert<>(node.left,comp);
       Convert<T> rightList = new Convert<>(node.right,comp);
-      leftList.fork();
-      CircularLinkedList<T> right = rightList.compute();
+      leftList.fork(); // transform left subtree into sorted circular linked list
+      CircularLinkedList<T> right = rightList.compute(); // transform right subtree
       CircularLinkedList<T> left  = leftList.join();
       CircularLinkedList<T> current = new CircularLinkedList<T>(node);
-      if(left!=null) current = CircularLinkedList.CircularLinkedListMerge(left,current);
-      if(right!=null) current = CircularLinkedList.CircularLinkedListMerge(current,right);
+      if(left!=null) current = CircularLinkedList.CircularLinkedListMerge(left,current); // join left subtree and current node (corresponds to inorder traversal)
+      if(right!=null) current = CircularLinkedList.CircularLinkedListMerge(current,right); // then add list produced from right subtree
       return current;
    }
 }
