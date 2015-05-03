@@ -3,7 +3,6 @@ package com.algorithms.parallel;
 /**
  * Created by amazaspshaumyan on 5/10/14.
  *
- *
  * Parallel prefix operation on generic array.
  *
  *
