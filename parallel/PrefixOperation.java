@@ -148,17 +148,12 @@ public class PrefixOperation{
     public static int CUT_SEQ =3; // cutoff to sequential array, low threshold for testing purposes.
 
     public static <T> void prefix(T[] arr, BinaryOperator<T> op){
-    PrefixBinaryTree<T> bt = fjp.invoke(new PrefixBinaryTreeConstruct<>(0,arr.length,arr,op));
-        System.out.println(bt.acc);
-        System.out.println(Arrays.toString(arr));
+        PrefixBinaryTree<T> bt = fjp.invoke(new PrefixBinaryTreeConstruct<>(0,arr.length,arr,op));
         fjp.invoke(new PrefixBinaryOperationTree<>(bt,null,arr,op));
     }
 
     public static void main(String[] args) {
-        Integer[] x = {1,2,3,4,5,6,7,8,9,10};
-        BinaryOperator<Integer> op = (z,y)->Math.min(z,y);
-        prefix(x,op);
-        System.out.println(Arrays.toString(x));
+
     }
 
 }
