@@ -43,9 +43,7 @@ import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.RecursiveAction;
 import java.util.function.BinaryOperator;
 
-/*
- creates binary serch tree for corresponfing prefix operation
- */
+
 class PrefixBinaryTree<T>{
 
     T acc;
@@ -73,6 +71,9 @@ class PrefixBinaryTreeConstruct<T> extends RecursiveTask<PrefixBinaryTree<T>>{
         this.lo = lo; this.hi = hi; this.arr = arr; this.op = op;
     }
 
+    /*
+     * Returns PrefixBinaryTree for
+     */
     public PrefixBinaryTree<T> seqPrefixBinaryTree(){
         T acc = arr[lo];
         for(int i = lo+1; i < hi; i++)
@@ -113,7 +114,6 @@ class PrefixBinaryOperationTree<T> extends RecursiveAction{
         int lo = bt.lo; int hi = bt.hi;
         for(int i = lo; i < hi-1; i++)
             arr[i + 1] = op.apply(arr[i + 1], arr[i]);
-        System.out.println(Arrays.toString(arr));
         T add;
         if(offset!=null) {
             add = offset;
@@ -151,8 +151,32 @@ public class PrefixOperation{
         fjp.invoke(new PrefixBinaryOperationTree<>(bt,null,arr,op));
     }
 
+    // simple testing
     public static void main(String[] args) {
-
+        Integer[] testMinDataInteger = {5,2,100,23,45,65,34,11,19,100};
+        Integer[] testMaxDataInteger = {100,23,34,12,101,109,45,83};
+        Integer[] testSumDataInteger = {1,2,3,4,5,6,7,8,9,10};
+        Integer[] testProdDataInteger = {5,10,100,1,1,1,2};
+        BinaryOperator<Integer> op_sum_int = (z,v)->z+v;
+        BinaryOperator<Integer> op_min_int = (z,v)->Math.min(z,v);
+        BinaryOperator<Integer> op_max_int = (z,v)->Math.max(z,v);
+        BinaryOperator<Integer> op_prod_int = (z,v)->z*v;
+        Integer[] testMinDataExpected = {5,2,2,2,2,2,2,2,2,2};
+        Integer[] testMaxDataExpected = {100,100,100,100,109,109,109};
+        Integer[] testSumDataExpected = {1,3,6,10,15,21,28,36,45,55};
+        Integer[] testProdDataExpected = {5,50,5000,5000,5000,5000,10000};
+        prefix(testMinDataInteger,op_min_int);
+        System.out.println("output: "+Arrays.toString(testMinDataInteger));
+        System.out.println("expected: " + Arrays.toString(testMinDataExpected));
+        prefix(testMaxDataInteger, op_max_int);
+        System.out.println("output: "+Arrays.toString(testMaxDataInteger));
+        System.out.println("expected: " + Arrays.toString(testMaxDataExpected));
+        prefix(testSumDataInteger, op_sum_int);
+        System.out.println("output: "+Arrays.toString(testSumDataInteger));
+        System.out.println("expected: " + Arrays.toString(testSumDataExpected));
+        prefix(testProdDataInteger, op_prod_int);
+        System.out.println("output: "+Arrays.toString(testProdDataInteger));
+        System.out.println("expected: " + Arrays.toString(testProdDataExpected));
     }
 
 }

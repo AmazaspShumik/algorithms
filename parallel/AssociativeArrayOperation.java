@@ -55,7 +55,7 @@ class AssociativeOperation<T> extends RecursiveTask<T>{
 public class AssociativeArrayOperation {
 
     public static ForkJoinPool fjp = new ForkJoinPool();
-    public static int CUTSEQ = 5;
+    public static int CUTSEQ = 5; // threshold set for testing purposes (change for perfomance purposes)
 
     public static <T> T associativeOperation(T[] input, BinaryOperator<T> op, int lo, int hi){
         return fjp.invoke(new AssociativeOperation<>(lo,hi,input,op));
